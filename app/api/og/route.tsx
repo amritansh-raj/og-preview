@@ -22,7 +22,7 @@ export async function GET(req: NextRequest) {
 
   const pnlColor = isPositive ? '#22c55e' : '#ef4444';
 
-  const imageResponse = new ImageResponse(
+  return new ImageResponse(
     (
       <div
         style={{
@@ -210,9 +210,4 @@ export async function GET(req: NextRequest) {
       height: 630,
     },
   );
-
-  // Cache on Vercel CDN for 1 hour — prevents cold start timeouts when Twitter crawls
-  imageResponse.headers.set('Cache-Control', 'public, s-maxage=3600, stale-while-revalidate=86400');
-
-  return imageResponse;
 }
