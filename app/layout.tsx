@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://og-preview.vercel.app";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://og-preview-ochre.vercel.app";
+const OG_IMAGE_URL = `${SITE_URL}/api/og`;
 
 export const metadata: Metadata = {
   title: "OG Preview – 915-style Unfurl Test",
@@ -16,7 +17,7 @@ export const metadata: Metadata = {
     siteName: "915 by Groww",
     images: [
       {
-        url: "/api/og",
+        url: OG_IMAGE_URL,
         width: 1200,
         height: 630,
         alt: "915 Verified P&L OG Preview",
@@ -29,7 +30,7 @@ export const metadata: Metadata = {
     title: "Amritansh Rai's Verified P&L",
     description:
       "View Amritansh Rai's verified trading P&L on 915 by Groww. Real, broker-verified performance.",
-    images: ["/api/og"],
+    images: [OG_IMAGE_URL],
     site: "@915_trade",
   },
   robots: "index,follow,max-image-preview:large",
