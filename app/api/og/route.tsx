@@ -1,9 +1,7 @@
 import { ImageResponse } from 'next/og';
 import { NextRequest } from 'next/server';
-import path from 'path';
-import fs from 'fs';
 
-export const runtime = 'nodejs';
+export const runtime = 'edge';
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
@@ -15,16 +13,9 @@ export async function GET(req: NextRequest) {
   const winRate = searchParams.get('winRate') || '68.3%';
   const trades = searchParams.get('trades') || '1,204';
 
-  const fontPath = path.join(process.cwd(), 'public', 'soehne-kraftig.woff2');
-  const fontBuffer = fs.readFileSync(fontPath);
-  const fontData = fontBuffer.buffer.slice(
-    fontBuffer.byteOffset,
-    fontBuffer.byteOffset + fontBuffer.byteLength
-  ) as ArrayBuffer;
-
   const initials = name
     .split(' ')
-    .map((w) => w[0])
+    .map((w: string) => w[0])
     .join('')
     .toUpperCase()
     .slice(0, 2);
@@ -40,7 +31,6 @@ export async function GET(req: NextRequest) {
           display: 'flex',
           flexDirection: 'column',
           background: 'linear-gradient(135deg, #0c0c10 0%, #13131a 60%, #0f1019 100%)',
-          fontFamily: 'SoehneKraftig, sans-serif',
           position: 'relative',
           overflow: 'hidden',
         }}
@@ -78,7 +68,6 @@ export async function GET(req: NextRequest) {
             padding: '52px 64px',
             height: '100%',
             boxSizing: 'border-box',
-            gap: '0px',
           }}
         >
           {/* Header Row */}
@@ -90,13 +79,7 @@ export async function GET(req: NextRequest) {
               marginBottom: '40px',
             }}
           >
-            <span
-              style={{
-                fontSize: '26px',
-                color: '#6b7280',
-                letterSpacing: '0.02em',
-              }}
-            >
+            <span style={{ fontSize: '26px', color: '#6b7280', letterSpacing: '0.02em' }}>
               915 by Groww
             </span>
             <div
@@ -111,13 +94,7 @@ export async function GET(req: NextRequest) {
               }}
             >
               <span style={{ fontSize: '16px', color: '#818cf8' }}>✓</span>
-              <span
-                style={{
-                  fontSize: '16px',
-                  color: '#818cf8',
-                  letterSpacing: '0.03em',
-                }}
-              >
+              <span style={{ fontSize: '16px', color: '#818cf8', letterSpacing: '0.03em' }}>
                 Broker Verified
               </span>
             </div>
@@ -151,35 +128,16 @@ export async function GET(req: NextRequest) {
             </div>
             {/* Name & handle */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-              <span
-                style={{
-                  fontSize: '36px',
-                  color: '#f9fafb',
-                  fontWeight: 700,
-                  lineHeight: 1.1,
-                }}
-              >
+              <span style={{ fontSize: '36px', color: '#f9fafb', fontWeight: 700, lineHeight: 1.1 }}>
                 {name}
               </span>
-              <span
-                style={{
-                  fontSize: '20px',
-                  color: '#6b7280',
-                }}
-              >
-                {handle}
-              </span>
+              <span style={{ fontSize: '20px', color: '#6b7280' }}>{handle}</span>
             </div>
           </div>
 
           {/* P&L Section */}
           <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '8px',
-              marginBottom: '44px',
-            }}
+            style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '44px' }}
           >
             <span
               style={{
@@ -189,7 +147,7 @@ export async function GET(req: NextRequest) {
                 textTransform: 'uppercase',
               }}
             >
-              Net P&amp;L
+              Net P&L
             </span>
             <span
               style={{
@@ -197,6 +155,7 @@ export async function GET(req: NextRequest) {
                 color: pnlColor,
                 lineHeight: 1,
                 letterSpacing: '-0.02em',
+                fontWeight: 700,
               }}
             >
               {pnl}
@@ -213,7 +172,6 @@ export async function GET(req: NextRequest) {
               borderTop: '1px solid rgba(255,255,255,0.07)',
             }}
           >
-            {/* Win Rate */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
               <span
                 style={{
@@ -225,19 +183,11 @@ export async function GET(req: NextRequest) {
               >
                 Win Rate
               </span>
-              <span style={{ fontSize: '28px', color: '#f9fafb' }}>{winRate}</span>
+              <span style={{ fontSize: '28px', color: '#f9fafb', fontWeight: 700 }}>{winRate}</span>
             </div>
 
-            {/* Divider */}
-            <div
-              style={{
-                width: '1px',
-                height: '40px',
-                background: 'rgba(255,255,255,0.08)',
-              }}
-            />
+            <div style={{ width: '1px', height: '40px', background: 'rgba(255,255,255,0.08)' }} />
 
-            {/* Total Trades */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
               <span
                 style={{
@@ -249,7 +199,7 @@ export async function GET(req: NextRequest) {
               >
                 Total Trades
               </span>
-              <span style={{ fontSize: '28px', color: '#f9fafb' }}>{trades}</span>
+              <span style={{ fontSize: '28px', color: '#f9fafb', fontWeight: 700 }}>{trades}</span>
             </div>
           </div>
         </div>
@@ -258,14 +208,7 @@ export async function GET(req: NextRequest) {
     {
       width: 1200,
       height: 630,
-      fonts: [
-        {
-          name: 'SoehneKraftig',
-          data: fontData,
-          weight: 700,
-          style: 'normal',
-        },
-      ],
-    }
+      // No custom font — Satori uses its built-in fallback (similar to Inter)
+    },
   );
 }
